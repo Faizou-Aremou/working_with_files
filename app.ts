@@ -1,6 +1,6 @@
 const APP = {
   file: null,
-  response: null,
+  response: null as Response | null,
   cacheName: 'samplecache-v1',
   cache: null,
   canvas: null,
@@ -80,7 +80,7 @@ const APP = {
         status: 200,
         statusText: 'Ok',
         headers: {
-          'content-type': APP.file.type,
+          'content-type': APP.file.type, //MIME Type
           'content-length': APP.file.size,
           'X-file': APP.file.name,
         },
