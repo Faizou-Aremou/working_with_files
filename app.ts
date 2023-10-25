@@ -112,7 +112,7 @@ const APP = {
       let type = APP.file.type;
       if (type == 'application/json') {
         //json
-        APP.file.arrayBuffer().then((buffer) => {
+        (APP.file as File).arrayBuffer().then((buffer) => {
           let txt = new TextDecoder('utf-8').decode(buffer);
           // fetch(url).then(response=> response.text()).then(txt=>{})
           document.getElementById('outputJSON').textContent = txt;
@@ -136,15 +136,15 @@ const APP = {
     if (!APP.cache) {
       APP.cache = await caches.open(APP.cacheName);
     }
-    let keys = await APP.cache.keys();
+    let keys = await (APP.cache as unknown as Cache).keys();
     //if there is something in the cache, get the last one, check the type, add to the page
     if (keys.length > 0) {
       let url = keys[keys.length - 1].url;
-      let response = await APP.cache.match(url);
-      let type = response.headers.get('content-type');
+      let response = await (APP.cache as unknown as Cache).match(url);
+      let type = response?.headers.get('content-type');
       if (type == 'application/json') {
         //json
-        let txt = await response.text();
+        let txt = await response?.text();
         document.getElementById('outputJSON').textContent = txt;
       } else if (type.startsWith('image/')) {
         //image
